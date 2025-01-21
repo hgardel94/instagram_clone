@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+    
+{% block content %}
+{% include 'navbar.html' %}
+
+<div class="post-container">
+    {% for post in posts %}
+        <div class="post">
+            <div class="post-header d-flex justify-content-between">
+                <div class="d-flex">
+                    {% if user.is_authenticated %}
+                    <a href="#">
+                        <img class="profile-pic" src="{% static 'images/post.png' %}">
+                    </a>
+                    {% else %}
+                    <a href="#">
+                        <img class="profile-pic" src="{% static 'images/user.png' %}">
+                    </a>
+                    {% endif %}
+                    <h6 class="post-user">{{post.user.username}}</h6>
+                </div>
+                <ul class="navbar-nav justify-content-end">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-ellipsis-h" style="color: gray;"></i>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{% url 'posts:edit_post' post.pk %}">Edit</a>
+                              <a class="dropdown-item" href="{% url 'posts:delete_post' post.pk %}">Delete</a>
+                              <a class="dropdown-item" href="#">Go to post</a>
+                              <a class="dropdown-item" href="#">Go to post</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="post-pic-container">
+                <img class="post-pic" src="{{post.image.url}}">
+            </div>
+            <div class="post-footer">
+                <div class="likes d-flex align-items-center">
+                    <a href="#"><i class="far fa-heart fa-lg" style="color: black; margin-right: 8px;"></i></a>
+                    <p class="mb-0"><strong>{{post.total_likes}} likes</strong></p>
+                </div>
+                
+                <p class="quote"><strong>{{post.user.username}}</strong> {{post.quote}}</p>
+                <a href="#"><p class="test-muted">See the {{post.comments.all.count}} comments</p></a>
+                <small class="test-muted">{{post.created_at|date:"M d, Y"}}</small>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

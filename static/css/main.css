@@ -1,0 +1,215 @@
+body {
+    background-color: #f1faee;
+  }
+  
+  .main-nav {
+    background-color: white;
+    -webkit-box-shadow: 2px 10px 3px -9px #c9c9c9;
+    box-shadow: 2px 10px 3px -9px #c9c9c9;
+  }
+  
+  .vertical-navbar {
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: auto;
+    width: 250px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    background-color: white;
+    padding: 20px; 
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); 
+}
+.navbar-nav a {
+   color: black; text-decoration: none; 
+  }
+
+
+.navbar-nav a:hover { 
+  color: black; text-decoration: underline; 
+}
+.content {
+    margin-left: 220px; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+    text-align: center;
+}
+
+
+
+  #navbarNav{
+    margin-right: auto;
+  }
+
+  .form-container {
+    width: 30%;
+    background-color: white;
+    padding: 50px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    -webkit-box-shadow: 0px 0px 3px 1px #d1b8ff;
+    box-shadow: 0px 0px 3px 1px #d1b8ff;
+  }
+  
+  .form-container button {
+    width: 100%;
+    margin-top: 20px;
+    margin-bottom: 5px;
+  }
+  
+  .form-container img {
+    width: 100%;
+    height: auto;
+  }
+  
+
+  .instagram-logo-pic{
+    
+      max-width: 120px;
+      max-height: 120px;
+      
+    
+  }
+
+  .profile-pic {
+    left: auto;
+    margin-right: 15px;
+    max-width: 25px;
+    max-height: 25px;
+    border-radius: 50%;
+  }
+
+  .navbar-icons{
+    margin-right: 15px;
+    max-width: 24px;
+    max-height: 24px;
+  }
+  
+  .img-container {
+  }
+  
+  .profile-container {
+    margin-top: 75px;
+    width: 75%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 30px;
+    padding: 20px;
+    display: flex;
+  }
+  
+  .big-profile-pic {
+    max-width: 200px;
+    max-height: 200px;
+    border-radius: 50%;
+  }
+  
+  .username {
+    margin-right: 20px;
+  }
+  
+  .profile-info-block {
+    margin-left: 100px;
+    margin-top: 20px;
+  }
+  
+  .profile-info-block p {
+    font-size: 1.1rem;
+    margin-right: 20px;
+  }
+  
+  .profile-form-container {
+    background-color: white;
+    margin-top: 100px;
+    margin-bottom: 30px;
+    padding: 50px;
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .update-btn {
+    margin-top: 30px;
+  }
+  
+  .input-group {
+  }
+  
+  .user-info {
+    margin-bottom: 20px;
+  }
+  
+  .plus-link {
+    font-size: 1.5rem;
+    margin-right: 20px;
+    color: black;
+    text-decoration: none;
+  }
+  
+  .post-container {
+    margin-top: 120px;
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 50px;
+  }
+  
+  .post {
+    background-color: white;
+    margin-bottom: 30px;
+    -webkit-box-shadow: 0px 0px 2px 0px #c1c1c1;
+    box-shadow: 0px 0px 2px 0px #c1c1c1;
+  }
+  
+  .post-header {
+    padding: 15px;
+  }
+  
+  .post-user {
+    margin-left: 15px;
+    margin-top: 10px;
+  }
+  
+  .post-pic {
+    min-width: 100%;
+    height: auto;
+    max-width: 100%;
+  }
+  
+  .post-footer {
+    background-color: white;
+    padding: 15px;
+  }
+  
+  .comment-field {
+    outline: none;
+    border: none;
+    height: 50px;
+    width: 100%;
+    margin-right: 10px;
+    overflow: auto;
+  }
+  
+  .comment-form {
+    padding: 10px;
+  }
+  
+  .user-post-list {
+    margin-top: 20px;
+    width: 75%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 30px;
+    padding: 20px;
+    padding-top: 40px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+    border-top: 1px solid lightgrey;
+  }

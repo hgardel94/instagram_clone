@@ -1,0 +1,93 @@
+{% load static %}
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-white vertical-navbar">
+        <div class="container-fluid d-flex flex-column">
+          <a class="navbar-brand" href="{% url 'posts:posts' %}"> 
+                <div class="profile-navbar">
+                    <img class="instagram-logo-pic" src="{% static 'images/instagram_logo.png' %}" alt="logo_ig">
+            </div>
+        </a>
+        
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav flex-column">
+
+                    <a href="{% url 'posts:posts' %}"><li class="nav-item mt-5" >
+                      <div class="d-flex align-items-center"> 
+                        <div class="profile-navbar"> <img class="navbar-icons" src="{% static 'images/app/home.png' %}" alt="logo_ig"> 
+                      </div> <span class="ms-2"></span>Start</span></span> </div>
+                    </li>
+                    </a>
+
+                    <a href="{% url 'posts:posts' %}"><li class="nav-item mt-4" >
+                      <div class="d-flex align-items-center"> 
+                        <div class="profile-navbar"> <img class="navbar-icons" src="{% static 'images/app/search.png' %}" alt="logo_ig"> 
+                      </div> <span class="ms-2"></span>Search</span></span> </div>
+                    </li>
+                    </a>
+
+                    <a href="{% url 'posts:posts' %}"><li class="nav-item mt-4" >
+                      <div class="d-flex align-items-center"> 
+                        <div class="profile-navbar"> <img class="navbar-icons" src="{% static 'images/app/reel.png' %}" alt="logo_ig"> 
+                      </div> <span class="ms-2"></span>Reels</span></span> </div>
+                    </li>
+                    </a>
+
+                    <a href="{% url 'posts:posts' %}"><li class="nav-item mt-4" >
+                      <div class="d-flex align-items-center"> 
+                        <div class="profile-navbar"> <img class="navbar-icons" src="{% static 'images/app/messages.png' %}" alt="logo_ig"> 
+                      </div> <span class="ms-2"></span>Messages</span></span> </div>
+                    </li>
+                    </a>
+
+                    <a href="{% url 'posts:posts' %}"><li class="nav-item mt-4" >
+                      <div class="d-flex align-items-center"> 
+                        <div class="profile-navbar"> <img class="navbar-icons" src="{% static 'images/app/explorer.png' %}" alt="logo_ig"> 
+                      </div> <span class="ms-2"></span>Explore</span></span> </div>
+                    </li>
+                    </a>
+
+                    <a href="{% url 'posts:create_post' %}"><li class="nav-item mt-4" >
+                      <div class="d-flex align-items-center"> 
+                        <div class="profile-navbar"> <img class="navbar-icons" src="{% static 'images/app/heart.png' %}" alt="logo_ig"> 
+                      </div> <span class="ms-2"></span>Notifications</span></span> </div>
+                    </li>
+                    </a>
+
+
+
+                    <a href="{% url 'posts:create_post' %}"><li class="nav-item mt-4" >
+                    <div class="d-flex align-items-center"> 
+                      <div class="profile-navbar"> <img class="navbar-icons" src="{% static 'images/app/anadir.png' %}" alt="logo_ig"> 
+                    </div> <span class="ms-2"></span>Create</span></span> </div>
+                  </li>
+                  </a>
+                  <a href="{% url 'posts:posts' %}">
+                    <li class="nav-item mt-3"></li>
+                    <div class="d-flex align-items-center"> 
+                    <div class="profile-navbar"> <img class="profile-pic" src="{% static 'images/post.png' %}" alt="logo_ig"> 
+                    </div> <span class="ms-2"></span>Profile</span></span> </div>
+                  </li>
+                  </a>
+
+                  <a href="{% url 'posts:create_post' %}"><li class="nav-item mt-4" >
+                    <div class="d-flex align-items-center"> 
+                      <div class="profile-navbar"> <img class="navbar-icons" src="{% static 'images/app/menu.png' %}" alt="logo_ig"> 
+                    </div> <span class="ms-2"></span>More</span></span> </div>
+                  </li>
+                  </a>
+                  
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+   
+
+    
+
+    
