@@ -4,6 +4,7 @@
 {% block content %}
 {% include 'navbar.html' %}
 
+
 <div class="post-container">
     {% for post in posts %}
         <div class="post">
@@ -38,11 +39,45 @@
                 <img class="post-pic" src="{{post.image.url}}">
             </div>
             <div class="post-footer">
-                <div class="likes d-flex align-items-center">
-                    <a href="#"><i class="far fa-heart fa-lg" style="color: black; margin-right: 8px;"></i></a>
-                    <p class="mb-0"><strong>{{post.total_likes}} likes</strong></p>
+                <div id="post-{{ post.id }}">
+                <div class="d-flex align-items-center">
+                    {% if post.has_liked %}
+                    <button class="btn btn-link p-0 like-button" 
+                    data-post-id="{{ post.id }}" 
+                    data-liked="true">
+                <i class="bi bi-heart-fill text-danger"></i>
+            </button>
+            {% else %}
+            <!-- Botón para dar like -->
+            <button class="btn btn-link p-0 like-button" 
+                    data-post-id="{{ post.id }}" 
+                    data-liked="false">
+                <i class="bi bi-heart"></i>
+            </button>
+            {% endif %}
+            <p class="mb-0 ms-2"><strong class="likes-count">{{ post.total_likes }} likes</strong></p>
+                    <p class="like-message ms-3 mb-0">
+                        {% if post.total_likes == 0 %}
+                            Be the first to like this
+                        {% endif %}
+                        {% if not post.has_liked and post.total_likes == 1 %}
+                            1 person liked this    
+                        {% endif %}   
+                        {% if post.total_likes == 1 and  post.has_liked %}
+                            You liked 
+                        {% endif %}
+                        {% if post.has_liked and post.total_likes == 2 %}
+                            You and {{ post.likes_minus_one }} other person liked this
+                        {% endif %}
+                        {% if post.has_liked and post.total_likes >= 3 %}
+                            You and {{post.likes_minus_one}} others liked this
+                        {% endif %}
+                        {% if not post.has_liked and post.total_likes >= 2 %}
+                            {{ post.likes.count }} people liked this
+                        {% endif %}
+                    </p>
                 </div>
-                
+                </div>
                 <p class="quote"><strong>{{post.user.username}}</strong> {{post.quote}}</p>
                 <a href="#"><p class="test-muted">See the {{post.comments.all.count}} comments</p></a>
                 <small class="test-muted">{{post.created_at|date:"M d, Y"}}</small>
@@ -52,3 +87,4 @@
 </div>
 
 {% endblock %}
+

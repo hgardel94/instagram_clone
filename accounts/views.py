@@ -65,9 +65,8 @@ def validate_request(request):
 
 def login_user(request):
     if request.method == 'GET':
-        form = AuthenticationForm()
         return render(request, 'accounts/login.html', {
-            'form': form
+            'form': AuthenticationForm
         })
 
     if not validate_request(request):
@@ -88,8 +87,20 @@ def login_user(request):
     return redirect('posts:posts')
 
 
+
 def signout(request):
     logout(request)
     return redirect('home')
+
+
+def search_people(request):
+    user = request.user
+    if not user.is_authenticated:
+        return redirect('accounts:login')
+    people = User.objects.all()
+    return render(request, 'accounts/search_people.html', {'people': people})
+    
+
+
 
 

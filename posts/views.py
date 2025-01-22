@@ -1,12 +1,21 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from . models import Post
+from . models import Post, Like, User
 from .forms import PostForm, CommentForm
 from django.contrib.auth.decorators import login_required
 from django.http.response import JsonResponse, HttpResponse
+from django.db.models import Q
 # Create your views here.
 
 def posts(request):
-    posts = Post.objects.all().order_by('-created_at')
+    user = request.user
+    if not user.is_authenticated:
+        return redirect('accounts:login')
+    
+    followed_users = user.followings.values_list('following', flat = True)
+    posts = Post.objects.filter(Q(user__in=followed_users) | Q(user=user)).order_by('-created_at')
+    for post in posts:
+        post.has_liked = post.likes.filter(user=user).exists()
+        post.likes_minus_one = post.likes.count() - 1
     return render(request, 'posts/posts.html', {'posts': posts})
 
 def create_post(request):
@@ -14,7 +23,9 @@ def create_post(request):
     if request.method == 'POST':
         form = PostForm(request.POST, request.FILES)
         if form.is_valid():
-            post = form.save()
+            post = form.save(commit=False)
+            post.user = request.user
+            post.save()
             return redirect('posts:posts')    
       
     return render(request, 'posts/create_post.html', {'form': form})
@@ -42,31 +53,30 @@ def delete_post(request, pk):
     return render(request, 'posts/delete_post.html', {'post': post})
 
 
+from django.http import JsonResponse
+
 @login_required(login_url='/')
 def like_post(request, post_id):
-    if request.method == 'GET':
-        post = get_object_or_404(Post, pk=post_id)
-        if request.user not in post.likes.all():
-            post.likes.add(request.user)
-            liked = True
-        else:
-            liked = False
-        post.save()
-        likes = post.likes.count()
-        return JsonResponse({'liked': liked, 'likes': likes})
-    return JsonResponse({'error': 'Invalid request method'}, status=400)
+    post = get_object_or_404(Post, pk=post_id)
+    user = request.user
+
+    if not Like.objects.filter(user=user, post=post).exists():
+        Like.objects.create(user=user, post=post)
+
+    likes_count = post.likes.count()
+    return JsonResponse({'liked': True, 'likes': likes_count})
 
 
 @login_required(login_url='/')
 def remove_like_post(request, post_id):
-    if request.method == 'GET':
-        post = get_object_or_404(Post, pk=post_id)
-        if request.user in post.likes.all():
-            post.likes.remove(request.user)
-            liked = False
-        else:
-            liked = True
-        post.save()
-        likes = post.likes.count()
-        return JsonResponse({'liked': liked, 'likes': likes})
-    return JsonResponse({'error': 'Invalid request method'}, status=400)
+    post = get_object_or_404(Post, pk=post_id)
+    user = request.user
+
+    if Like.objects.filter(user=user, post=post).exists():
+        Like.objects.filter(user=user, post=post).delete()
+
+    likes_count = post.likes.count()
+    return JsonResponse({'liked': False, 'likes': likes_count})
+
+
+        

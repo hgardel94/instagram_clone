@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load static %}
+    
+{% block content %}
+
+
+
+    <div class="container mt-5">
+        <h3>Cuentas a las que Seguir</h3>
+        <div class="row row-eq-height">
+            {% for person in people %}
+            <div class="col-md-4 d-flex align-items-stretch">
+                <div class="card mb-4">
+                    <img src="{{ user.profile_image_url }}" class="card-img-top" alt="Profile Image">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">{{ person.username }}</h5>
+                        <p class="card-text">{{ user.description }}</p>
+                        <a href="#" class="btn btn-primary mt-auto">Seguir</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+ 
+
+
+
+{% endblock %}
