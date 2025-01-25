@@ -36,11 +36,25 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    flex-direction: column;
     text-align: center;
 }
 
+.row-search{
+  margin-left: 180px;
+}
+.content-search {
+  margin-top: 60px;
+  display:flex;
+  flex-direction: column;
+  text-align:center;
+}
 
+.card-search{
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+
+}
 
   #navbarNav{
     margin-right: auto;
@@ -225,3 +239,51 @@ body {
   display: flex;
   flex-direction: column;
 }
+
+
+.profile-pic-search{
+ 
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+
+}
+
+.profile-picture img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.post img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+/*.profile-info {
+  margin-left: 20px;
+}*/
+
+.stats span {
+  margin-right: 20px;
+}
+.profile-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+
+.content-profile{
+  width: 70%;
+  height: 70%;
+  padding-left: 10%;
+}
+
+.post-profile{
+  width: auto;
+  height: auto;
+  
+}
+
+

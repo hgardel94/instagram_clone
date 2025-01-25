@@ -7,6 +7,8 @@ from django.contrib.auth import login, logout, authenticate
 from django.http.response import JsonResponse, HttpResponse
 from django.db import IntegrityError
 from django.contrib.auth.decorators import login_required
+from . models import Follow
+from posts.models import Post
 
 # Create your views here.
 
@@ -93,14 +95,33 @@ def signout(request):
     return redirect('home')
 
 
+@login_required
 def search_people(request):
-    user = request.user
-    if not user.is_authenticated:
-        return redirect('accounts:login')
-    people = User.objects.all()
-    return render(request, 'accounts/search_people.html', {'people': people})
     
+    people = User.objects.exclude(id=request.user.id)
+    followed_user_ids = request.user.followings.values_list('following_id', flat=True)
+    people_to_display = people.exclude(id__in=followed_user_ids)
+    return render(request, 'accounts/search_people.html', {'people': people_to_display})
+
+@login_required
+def follow_user(request, user_id):
+    user_to_follow = get_object_or_404(User, id=user_id)
+   
+    if request.user != user_to_follow:
+        Follow.objects.get_or_create(follower=request.user, following=user_to_follow)
+ 
+    return redirect('accounts:search_people')
 
 
-
-
+@login_required
+def display_profile(request):
+    
+    user = request.user
+    users_following = user.followings.all().count()
+    users_followers = user.followers.all().count()
+    posts = Post.objects.filter(user = user)
+    number_of_posts = posts.count()
+    return render(request, 'accounts/profile.html', {'posts': posts,
+                                                     'users_following': users_following,
+                                                     'users_followers': users_followers,
+                                                     'number_of_posts': number_of_posts})

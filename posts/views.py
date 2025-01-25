@@ -4,6 +4,7 @@ from .forms import PostForm, CommentForm
 from django.contrib.auth.decorators import login_required
 from django.http.response import JsonResponse, HttpResponse
 from django.db.models import Q
+from accounts.models import Profile
 # Create your views here.
 
 def posts(request):
@@ -53,7 +54,26 @@ def delete_post(request, pk):
     return render(request, 'posts/delete_post.html', {'post': post})
 
 
-from django.http import JsonResponse
+def load_comments(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+    comments = post.comments.all().select_related('user__profile').values(
+        'id', 'text', 'user__username', 'created_at', 'user__profile__image'
+    )
+
+    comments_data = []
+    for comment in comments:
+        profile_image_url = comment['user__profile__image'] if comment['user__profile__image'] else '/media/profile_images/default_user.png'
+        comments_data.append({
+            'id': comment['id'],
+            'text': comment['text'],
+            'user__username': comment['user__username'],
+            'created_at': comment['created_at'],
+            'user__profile__image': profile_image_url,
+        })
+
+    return JsonResponse(comments_data, safe=False)
+
+
 
 @login_required(login_url='/')
 def like_post(request, post_id):

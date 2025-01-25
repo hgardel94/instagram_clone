@@ -65,10 +65,10 @@
                     </div> <span class="ms-2"></span>Create</span></span> </div>
                   </li>
                   </a>
-                  <a href="{% url 'posts:posts' %}">
+                  <a href="{% url 'accounts:profile' %}">
                     <li class="nav-item mt-3"></li>
                     <div class="d-flex align-items-center"> 
-                    <div class="profile-navbar"> <img class="profile-pic" src="{% static 'images/post.png' %}" alt="logo_ig"> 
+                    <div class="profile-navbar"> <img class="profile-pic" src="{{request.user.profile.image.url}}" alt="logo_ig"> 
                     </div> <span class="ms-2"></span>Profile</span></span> </div>
                   </li>
                   </a>
