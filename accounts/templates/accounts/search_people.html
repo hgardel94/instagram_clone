@@ -15,7 +15,6 @@
                 </div>
                 <div class="card-body d-flex flex-column card-search">
                     <h5 class="card-title">{{ person.username }}</h5>
-                    <!-- Enlace para seguir al usuario -->
                     <a href="{% url 'accounts:follow_user' person.id %}" class="btn btn-primary follow-btn">
                         Seguir
                     </a>

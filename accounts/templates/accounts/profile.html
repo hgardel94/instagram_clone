@@ -37,22 +37,13 @@
         </div>
     </div>
 
-    <!-- Historias destacadas -->
-    <div class="highlights mt-4 d-flex">
-        {% for highlight in highlights %}
-        <div class="highlight me-3">
-            <img src="{{ highlight.image.url }}" alt="{{ highlight.title }}" class="img-fluid rounded-circle" style="width: 60px; height: 60px; object-fit: cover;">
-            <p class="text-center mt-1">{{ highlight.title }}</p>
-        </div>
-        {% endfor %}
-    </div>
 
     <!-- Publicaciones -->
     <div class="row mt-4">
         {% for post in posts %}
         <div class="col-md-4 mb-4">
             <div class="post-profile">
-                <img src="{{ post.image.url }}" alt="Publicación" class="img-fluid rounded">
+                <img src="{{ post.image.url }}" alt="Publicación" class="img-fluid">
             </div>
         </div>
         {% endfor %}

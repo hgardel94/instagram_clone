@@ -125,9 +125,22 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
 ]
 
-MEDIA_URL = '/images/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')
+# settings.py
 
+
+# settings.py
+
+# Para archivos estáticos (CSS, JS, imágenes públicas)
+STATIC_URL = '/static/'
+
+# Si estás en un entorno de desarrollo, puedes definir las rutas de archivos estáticos aquí.
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
+
+# Para archivos de medios (imágenes de perfil subidas por los usuarios)
+MEDIA_URL = '/media/'  # Aquí se define la URL a través de la cual los archivos de medios serán accesibles
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # Aquí se almacenen físicamente los archivos subidos (como las imágenes de perfil)
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

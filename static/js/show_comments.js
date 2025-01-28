@@ -1,42 +1,66 @@
-document.addEventListener('DOMContentLoaded', function() {
-    var showCommentsLinks = document.querySelectorAll('.show-comments');
+document.addEventListener('DOMContentLoaded', () => {
+    const modal = new bootstrap.Modal(document.getElementById('postModal'));
+    const modalImg = document.getElementById('modal-img');
+    const modalComments = document.getElementById('modal-comments');
+    const commentForm = document.getElementById('comment-form');
+    const commentText = document.getElementById('comment-text');
+    let currentPostId = null;
 
-    showCommentsLinks.forEach(function(link) {
-        link.addEventListener('click', function(event) {
-            event.preventDefault();
-            var postId = this.getAttribute('data-post-id');
-            var commentList = this.parentElement.nextElementSibling;
+    
+    const loadCommentsAndShowModal = (postId) => {
+        fetch(`/posts/post/${postId}/`)
+            .then(response => response.text())
+            .then(html => {
+                modalComments.innerHTML = html;
+                modalImg.src = document.querySelector(`[data-post-id="${postId}"]`).closest('.post').querySelector('.post-pic').src;
+                modal.show();
+            })
+            .catch(err => console.error('Error al cargar los comentarios:', err));
+    };
 
-            // Si los comentarios están ocultos, los mostramos
-            if (commentList.style.display === 'none' || commentList.style.display === '') {
-                fetch(`/posts/comments/${postId}/`)
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Network response was not ok ' + response.statusText);
-                        }
-                        return response.json();
-                    })
-                    .then(comments => {
-                        commentList.innerHTML = '';  // Limpia los comentarios previos
-                        comments.forEach(comment => {
-                            var profileImage = comment.user__profile__image || '/media/profile_images/default_user.png';
-                            var commentDiv = document.createElement('div');
-                            var commentDiv = document.createElement('div');
-                            commentDiv.classList.add('comment');
-                            commentDiv.innerHTML = `
-                                <img src="${profileImage}" alt="Profile Image" class="rounded-circle" style="width: 30px; height: 30px; object-fit: cover;">
-                                <p><strong>${comment.user__username}:</strong> ${comment.text}</p>
-                            `;
-                            commentList.appendChild(commentDiv);
-                        });
-                        commentList.style.display = 'block';
-                        this.textContent = 'Hide comments';  // Cambia el texto a 'Hide comments'
-                    })
-                    .catch(error => console.error('Error:', error));
-            } else {  // Si los comentarios ya están visibles, los ocultamos
-                commentList.style.display = 'none';
-                this.textContent = 'See the comments';  // Cambia el texto a 'See the comments'
+    
+    const handleCommentSubmit = (event) => {
+        event.preventDefault();
+
+        if (!currentPostId) return;
+
+        const formData = new URLSearchParams({
+            'text': commentText.value
+        });
+
+        fetch(`/posts/add_comment/${currentPostId}/`, {
+            method: 'POST',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                const newComment = document.createElement('p');
+                newComment.innerHTML = `
+                    <img src="${data.comment.profile_pic}" class="profile-pic me-2 mt-2" alt="Foto de perfil">
+                    <strong>${data.comment.user}</strong> ${data.comment.text} <small class="text-muted">${data.comment.created_at}</small>`;
+                modalComments.appendChild(newComment);
+                commentText.value = ''; // Limpiar el campo de texto
+            } else {
+                console.error('Error al agregar comentario:', data.errors);
             }
+        })
+        .catch(err => console.error('Error en la petición AJAX:', err));
+    };
+
+    
+    document.querySelectorAll('.open-modal').forEach(link => {
+        link.addEventListener('click', (event) => {
+            event.preventDefault();
+            currentPostId = link.getAttribute('data-post-id');
+            loadCommentsAndShowModal(currentPostId);
         });
     });
+
+    commentForm.addEventListener('submit', handleCommentSubmit);
 });

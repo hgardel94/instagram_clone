@@ -11,7 +11,7 @@ from PIL import Image
 
 class Profile(models.Model):
     user = models.OneToOneField(User, related_name='profile', on_delete=models.CASCADE)
-    image = models.ImageField(upload_to="profile/profile_pictures/", null=True, default="default_user.png")
+    image = models.ImageField(upload_to="profile_pictures/", null=True, default="default_user.png")
     first_name = models.CharField(max_length=200, null=True, blank=True)
     last_name = models.CharField(max_length=200, null=True, blank=True)
     bio = models.CharField(max_length=200, null=True, blank=True)

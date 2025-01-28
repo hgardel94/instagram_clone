@@ -54,6 +54,7 @@ def delete_post(request, pk):
     return render(request, 'posts/delete_post.html', {'post': post})
 
 
+
 def load_comments(request, post_id):
     post = get_object_or_404(Post, id=post_id)
     comments = post.comments.all().select_related('user__profile').values(
@@ -72,8 +73,6 @@ def load_comments(request, post_id):
         })
 
     return JsonResponse(comments_data, safe=False)
-
-
 
 @login_required(login_url='/')
 def like_post(request, post_id):
@@ -97,6 +96,45 @@ def remove_like_post(request, post_id):
 
     likes_count = post.likes.count()
     return JsonResponse({'liked': False, 'likes': likes_count})
+
+
+
+def post_comment(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+    return render(request, 'posts/post_detail.html', {'post': post})
+
+
+
+@login_required
+def add_comment(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+
+    if request.method == 'POST' and request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.user = request.user
+            comment.post = post
+            comment.save()
+            
+            return JsonResponse({
+                'success': True,
+                'comment': {
+                    'user': comment.user.username,
+                    'text': comment.text,
+                    'created_at': comment.created_at.strftime("%b %d, %Y"),
+                    'profile_pic': comment.user.profile.image.url 
+                }   
+            })
+        if form.errors:
+            return JsonResponse({'success': False, 'errors': form.errors}, status=400)
+
+    return JsonResponse({'success': False, 'error': 'Invalid request'}, status=400)
+
+
+
+
+
 
 
         
