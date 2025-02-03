@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block content %}
+{% include 'navbar.html' %}
+
+<div class="inbox-container">
+    <h4 class="title-message">Messages</h4>
+{% for conversation in conversations %}
+<div class="inbox">
+   <a href="{% url 'directs:thread' conversation.id %}" class="link-messages"> <div class="inbox-text">
+    <img class="profile-pic-inbox" src="{{conversation.other_user.profile.image.url}}" alt="">
+    <div class="text">
+    <p class="ms-2">
+        {% if conversation.last_message.sender == request.user %}
+        <b>{{conversation.other_user}}</b> <br>
+        <small>{{ conversation.last_message.content }}</small>
+        {% else %}
+        {% if conversation.last_message_unread %}
+        
+           <p class="ms-3"> <b>{{conversation.other_user}}</b> 
+            <span class="unread-dot"></span> <br>
+            {{conversation.last_message.content}}</p>
+
+        {% else %}    
+        <p class="ms-3"> <b>{{conversation.other_user}}</b> <br>
+            {{conversation.last_message.content}}</p>
+            {% endif %}
+            {% endif %}
+        
+    
+    </div>
+    </div>
+   </a>
+</div>
+</div>
+
+
+
+{% endfor %}
+{% endblock %}

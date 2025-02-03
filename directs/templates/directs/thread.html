@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+
+<div class="conversation-container">
+  <div class="info-conversation">
+    <img class="profile-pic-conversation" src="{{ other_user.profile.image.url }}" alt="Image not found">
+    <div class="username-container">
+      <p class="username"><b>{{ other_user.username }}</b></p>
+    </div>
+    <div class="icons-conversation-header">
+      <img  class="pic-icons-conversation" src="{% static 'images/app/telefono.png' %}" alt="Image not found">
+      <img  class="pic-icons-conversation ms-3" src="{% static 'images/app/videollamada.png' %}" alt="Image not found">
+      <img  class="pic-icons-conversation ms-3" src="{% static 'images/app/informacion.png' %}" alt="Image not found">
+
+    </div>
+  </div>
+</div>
+
+
+  <div class="chat-container">
+    {% for message in messages %}
+      {% if message.sender == request.user %}
+        <!-- Mensaje enviado por el usuario actual -->
+        <div class="conversation-content sender">
+          <div class="sender-user-container">
+            <div class="message-sender">
+              <p class="sender-text">{{ message.content }}</p>
+            </div>
+            <div class="message-meta">
+              <small class="time-sent">{{ message.timestamp|time }}</small>
+              {% if message.is_read_by_other %}
+                <small class="read-status">Seen</small>
+              {% else %}
+                <small class="read-status">✔️</small>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      {% else %}
+        <!-- Mensaje recibido del otro usuario -->
+        <div class="conversation-content receiver">
+          <div class="receiver-user-container">
+            {% if message.show_avatar %}
+              <img class="profile-pic" src="{{ other_user.profile.image.url }}" alt="{{ other_user.username }}">
+              
+            {% else %}
+              <!-- Si no se muestra el avatar, se puede dejar un espacio vacío opcional -->
+              <div class="avatar-placeholder"></div>
+            {% endif %}
+            <div class="message-group">
+              <div class="message-sender">
+                <p class="receiver-text">{{ message.content }}</p>
+              </div>
+              <div class="message-meta">
+                <small class="time-sent">{{ message.timestamp|time }}</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+
+
+
+
+
+</div>
+<div class="message-form">
+  <form method="post" action="{% url 'directs:send_message' conversation.id %}">
+      {% csrf_token %}
+      <div class="input-group">
+          <input type="text" name="content" class="input" placeholder="Escribe un mensaje..." required>
+          <div class="button-send"><button type="submit" class="btn btn-link text-primary fw-bold">Send</button></div>
+      </div>
+  </form>
+</div>
+
+
+
+{% endblock %}

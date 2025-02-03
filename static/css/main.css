@@ -364,3 +364,247 @@ body {
   font-weight: bold;
   cursor: pointer;
 }
+
+.inbox-container{
+  margin-top: 50px;
+}
+.inbox{
+  margin-top: 5px;
+  width: 40%;
+  
+  flex-direction: column;
+  margin-left: 270px;
+ 
+}
+
+.inbox-text{
+  display: flex;
+  margin-bottom: 5px;
+ 
+  
+}
+
+.profile-pic-inbox{
+  height: 60px;
+  width: 60px;
+  border-radius: 50%;
+}
+
+.message-content{
+  display: flex;
+  margin-top: 0%;
+}
+
+.title-message{
+  margin-left: 275px;
+  margin-bottom: 20px;
+
+}
+
+.link-messages{
+  text-decoration: none;
+  color: black;
+}
+
+
+.unread-dot{
+  align-items: center;
+  width: 10px;
+  height: 10px;
+  background-color: rgb(33, 144, 229);
+  border-radius: 50%;
+  display: inline-block;
+  margin-left: 10px;
+}
+
+/* styles.css */
+.message-form {
+  display: flex;
+  max-width: 100%;
+  justify-content: flex-end; /* Alinea los elementos al principio del contenedor */
+  align-items: center;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  padding: 5px 10px;
+  background-color: #f1f0f0;
+}
+
+.input-group {
+  display: flex;
+  justify-content: space-between; /* Espacia los elementos dentro del grupo */
+  width: 100%; /* Asegura que el grupo ocupe el ancho completo */
+}
+
+.input-group .input {
+  flex-grow: 1;
+  border: none;
+  background-color: #f1f0f0;
+  padding: 5px;
+  margin-right: 100px; /* Añade un espacio entre el input y el botón */
+}
+
+.input-group .input:focus {
+  outline: none;
+  width: 1100px;
+}
+
+.input-group button {
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 5px;
+  
+  
+}
+
+
+
+
+.conversation-container{
+  border: 1px solid #5a5252; padding: 10px; height: 400px; 
+  display: flex;
+  max-width:100%;
+  max-height: 90px;
+}
+
+
+
+
+
+
+.info-conversation {
+  display: flex;
+  align-items: center; 
+} 
+
+.profile-pic-conversation {
+  /* Asegúrate de que la imagen tenga un tamaño adecuado */
+  width: 50px;
+  height: 50px;
+  border-radius: 50%; 
+  margin-right: 10px; 
+}
+
+.profile-pic-message{
+width: 40px;
+height: 40px;
+border-radius: 50%;
+
+}
+
+.username-container, 
+.username {
+
+  margin: 0;
+  padding: 0;
+}
+
+.icons-conversation-header{
+ display: flex;
+ position: fixed;
+ left: 90%;
+ 
+}
+
+.pic-icons-conversation{
+  width: 30px;
+  height: 30px;
+  
+}
+
+
+
+
+
+/* Contenedor general del chat */
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+}
+
+/* Estilos para mensajes enviados (alineados a la derecha) */
+.conversation-content.sender {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.sender-user-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.sender-user-container .message-sender {
+  background-color: #0084ff;
+  color: white;
+  padding: 0px 7px;
+  border-radius: 15px;
+  max-width: 100%;
+  margin-right: 10px;
+  word-wrap: break-word;
+}
+
+.sender-user-container .message-meta {
+  margin-top: 3px;
+  font-size: 12px;
+  color: #555;
+  background: none;
+  display: flex;
+  gap: 5px;
+  margin-right: 10px;
+}
+
+/* Estilos para mensajes recibidos (alineados a la izquierda) */
+.conversation-content.receiver {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.receiver-user-container {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 10px; /* Espacio entre avatar y mensaje */
+}
+
+/* Grupo que contiene la burbuja del mensaje y los metadatos */
+.message-group {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Burbuja del mensaje recibido */
+.receiver-user-container .message-sender {
+  background-color: #f1f0f0;
+  color: black;
+  padding: 0px 7px;
+  border-radius: 20px;
+  max-width: 100%;
+  word-wrap: break-word;
+  
+}
+
+/* Metadatos sin fondo */
+.message-meta {
+  margin-top: 3px;
+  font-size: 12px;
+  color: #555;
+  background: none;
+}
+
+/* Estilos para la imagen del perfil */
+.profile-pic {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+/* Opcional: un placeholder para mantener la alineación cuando no se muestra el avatar */
+.avatar-placeholder {
+  width: 40px;
+  height: 40px;
+  
+  
+}
