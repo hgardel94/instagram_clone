@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <img src="${data.comment.profile_pic}" class="profile-pic me-2 mt-2" alt="Foto de perfil">
                     <strong>${data.comment.user}</strong> ${data.comment.text} <small class="text-muted">${data.comment.created_at}</small>`;
                 modalComments.appendChild(newComment);
-                commentText.value = ''; // Limpiar el campo de texto
+                commentText.value = ''; 
             } else {
                 console.error('Error al agregar comentario:', data.errors);
             }

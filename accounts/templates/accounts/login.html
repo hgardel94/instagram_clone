@@ -1,14 +1,22 @@
 {% extends 'base.html' %}
 {% block content %}
+{% load static %}
 <main class="container">
     <div class="row">
         <section class="col-md-4 offset-md-4 mt-5">
-            <form action="{% url 'accounts:login' %}" method="POST" class="card card-body">
+            <div class="content-login">
+                <div class="pic-phone">
+            <img src="{% static 'images/app/phone-login.png' %}" alt="Image not found">
+                </div>
+                <div class="form-login">
+                
+            <form action="{% url 'accounts:login' %}" method="POST" class="card card-body form-login">
              
                 {% csrf_token %}
                 {{error}}
-                <h1 class="text-center">Signin</h1>
-            
+                <div class="logo-instagram">
+                <img class="login-pic" src="{% static 'images/app/instagram_logo.png' %}" alt="logo_ig">
+                </div>
                 <div class="mb-3">
                     <label for="username">Username:</label>
                     <input type="text" name="username" id="username" class="form-control" placeholder="Write your username">
@@ -19,10 +27,33 @@
                     <input type="password" name="password" id="password" class="form-control" placeholder="Write your password">
                 </div>
             
-                <button class="btn btn-dark">
-                    Signin
+                <button class="btn btn-primary">
+                    Enter
                 </button>
+
+                <div class="line-container">
+                    <div class="line"></div>
+                    <div class="circle">o</div>
+                    <div class="line"></div>
+                </div>
+
+                <div class="login-facebook">
+                           
+                    <a href="#" > 
+                        <img class="pic-facebook"  src="{% static 'images/app/facebook.png' %}" alt="">
+                        Signin in with Facebook</a>
+                      </div>
+               
+                <div class="login-register">
+                    <small>Don't you have account?</small>
+                    <a href="{% url 'accounts:register' %}">Register</a>
+                </div>
             </form>
+            
+                </div>
+
+                
+            </div>
         </section>
     </div>
 </main>

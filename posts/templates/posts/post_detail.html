@@ -1,31 +1,21 @@
-{% extends 'base.html' %}
-{% block content %}
-{% load static %}
-<div class="modal-content">
-    <!-- Contenedor de la imagen del post -->
- 
-    <!-- Contenedor de los comentarios -->
+<div class="modal-content-comments">
+
     <div class="modal-comments-container">
-        <!-- Usuario y descripción -->
+
         <div class="separator">
             <img class="profile-pic-comment" src="{{ post.user.profile.image.url }}" alt="Profile">
             <strong>{{ post.user.username }}</strong>
-            
-
         </div>
         <p>{{ post.quote }}</p>
 
-        <!-- Lista de comentarios -->
+
         {% for comment in post.comments.all %}
         <div class="separator">
             <img class="profile-pic-comment" src="{{ comment.user.profile.image.url }}" alt="Profile">
-            <p><strong>{{ comment.user.username }}</strong> {{ comment.text }}</p>           
-                <small class="text-muted mt-3">{{comment.created_at|date:"M d, Y"}}</small>
+            <p><strong>{{ comment.user.username }}</strong> {{ comment.text }}</p>
+            <small class="text-muted mt-3">{{comment.created_at|date:"M d, Y"}}</small>
         </div>
         {% endfor %}
 
     </div>
 </div>
-
-
-{% endblock %}

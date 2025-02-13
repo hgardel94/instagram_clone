@@ -48,8 +48,11 @@ def delete_post(request, pk):
     post = get_object_or_404(Post, id = pk)
     
     if request.method == 'POST':
-        post.delete()
-        return redirect('posts:posts')
+        if request.user != post.user:
+            return HttpResponse('Unauthorized', status=401)
+        if request.user == post.user:
+            post.delete()
+            return redirect('posts:posts')
     
     return render(request, 'posts/delete_post.html', {'post': post})
 
@@ -58,8 +61,7 @@ def delete_post(request, pk):
 def load_comments(request, post_id):
     post = get_object_or_404(Post, id=post_id)
     comments = post.comments.all().select_related('user__profile').values(
-        'id', 'text', 'user__username', 'created_at', 'user__profile__image'
-    )
+        'id', 'text', 'user__username', 'created_at', 'user__profile__image')
 
     comments_data = []
     for comment in comments:
@@ -74,7 +76,7 @@ def load_comments(request, post_id):
 
     return JsonResponse(comments_data, safe=False)
 
-@login_required(login_url='/')
+@login_required
 def like_post(request, post_id):
     post = get_object_or_404(Post, pk=post_id)
     user = request.user

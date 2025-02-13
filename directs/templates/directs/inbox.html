@@ -1,39 +1,123 @@
 {% extends 'base.html' %}
 {% block content %}
+{% load static %}
 {% include 'navbar.html' %}
 
-<div class="inbox-container">
-    <h4 class="title-message">Messages</h4>
-{% for conversation in conversations %}
-<div class="inbox">
-   <a href="{% url 'directs:thread' conversation.id %}" class="link-messages"> <div class="inbox-text">
-    <img class="profile-pic-inbox" src="{{conversation.other_user.profile.image.url}}" alt="">
-    <div class="text">
-    <p class="ms-2">
-        {% if conversation.last_message.sender == request.user %}
-        <b>{{conversation.other_user}}</b> <br>
-        <small>{{ conversation.last_message.content }}</small>
-        {% else %}
-        {% if conversation.last_message_unread %}
-        
-           <p class="ms-3"> <b>{{conversation.other_user}}</b> 
-            <span class="unread-dot"></span> <br>
-            {{conversation.last_message.content}}</p>
-
-        {% else %}    
-        <p class="ms-3"> <b>{{conversation.other_user}}</b> <br>
-            {{conversation.last_message.content}}</p>
-            {% endif %}
-            {% endif %}
-        
-    
+<h4 class="title-message">{{ user.username }}</h4>
+<div class="inbox-layout">
+    <div class="inbox-container">
+        {% for conversation in conversations %}
+        <div class="inbox">
+            <a href="{% url 'directs:thread' conversation.id %}" 
+               class="link-messages" 
+               data-conversation-id="{{ conversation.id }}" 
+               data-other-user="{{ conversation.other_user.username }}" 
+               data-profile-pic="{{ conversation.other_user.profile.image.url }}">
+                <div class="inbox-text">
+                    <img class="profile-pic-inbox" src="{{ conversation.other_user.profile.image.url }}" alt="">
+                    <div class="text">
+                        <p class="ms-2">
+                            {% if conversation.last_message.sender == request.user %}
+                            
+                            <b>{{ conversation.other_user }}</b><br>
+                            <small>{{ conversation.last_message.content }}</small>
+                            {% else %}
+                                {% if conversation.last_message_unread %}
+                                <div class="unread-block">
+                                  <div class="user-unread">
+                                      <b>{{ conversation.other_user }}</b>  
+                                  </div>        
+                                  <div class="message-content">       
+                                      <span>{{ conversation.last_message.content }}</span>
+                                      <div class="unread-div">
+                                          <span class="unread-dot"></span>
+                                      </div>
+                                  </div>
+                              </div>
+                              
+                                {% else %}
+                                <b>{{ conversation.other_user }}</b><br>
+                                {{ conversation.last_message.content }}
+                                {% endif %}
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+            </a>
+        </div>
+        {% endfor %}
     </div>
+</div>
+
+
+<div class="modal fade" id="messageModal" tabindex="-1" aria-labelledby="messageModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="info-conversation">
+          <img class="profile-pic-conversation" id="modal-profile-pic" src="" alt="Image not found">
+          <div class="username-container">
+            <p class="username"><b id="modal-username"></b></p>
+          </div>
+          <div class="icons-conversation-header">
+            <img class="pic-icons-conversation" src="{% static 'images/app/telefono.png' %}" alt="Image not found">
+            <img class="pic-icons-conversation ms-3" src="{% static 'images/app/videollamada.png' %}" alt="Image not found">
+            <img class="pic-icons-conversation ms-3" src="{% static 'images/app/informacion.png' %}" alt="Image not found">
+          </div>
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="modal-body">
+        <div class="chat-container" id="conversation-messages" data-conversation-id="">
+          
+        </div>
+      </div>
+      <div class="modal-footer">
+        <form id="message-form" class="message-form">
+          {% csrf_token %}
+          <div class="input-group">
+            <input type="text" id="message-input" name="content" class="input" placeholder="Write a message..." required>
+            <div class="button-send">
+              <button type="submit" class="btn btn-link text-primary fw-bold">Send</button>
+            </div>
+          </div>
+        </form>
+      </div>
     </div>
-   </a>
+  </div>
 </div>
+
+
+<div class="open-messages">
+  <div class="pic-text">
+    <img class="pic-messages" src="{% static 'images/app/messenger.png' %}" alt="Image not found">
+    <h4>Tus mensajes</h4>
+  </div>
+  <small class="send-photos-info">Send private photos and messages to a friend or group.</small>
+  <div class="button-new-message">
+    <button id="openNewMessageModal" type="button" class="btn btn-primary fw-bold" >New Conversation</button>
+  </div>
 </div>
 
 
+<div class="modal fade" id="newConversationModal" tabindex="-1" aria-labelledby="newConversationModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h6 class="modal-title" id="newConversationModalLabel"><b>New Conversation</b></h6>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        <label for="friendSelect"><b>For:</b></label>
+        <div id="friendSelect">
+        
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="createConversationBtn" class="btn btn-primary btn-chat">Chat</button>
+      </div>
+    </div>
+  </div>
+</div>
 
-{% endfor %}
 {% endblock %}

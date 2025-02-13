@@ -1,38 +1,36 @@
 $(document).on('click', '.like-button', function(e) {
-    e.preventDefault(); // Prevenir el comportamiento por defecto (en caso de ser un formulario, etc.)
+    e.preventDefault(); 
     
-    var post_id = $(this).data('post-id');  // Obtener el ID del post
-    var liked = $(this).data('liked');   // Comprobar si ya está likeado
+    var post_id = $(this).data('post-id');  
+    var liked = $(this).data('liked');   
     var url = liked ? '/posts/remove_like_post/' + post_id + '/' : '/posts/like_post/' + post_id + '/';  // Determinar la URL
 
-    // Enviar la solicitud AJAX para dar o quitar like
     $.ajax({
         type: 'GET',
         url: url,
         success: function(response) {
             var button = $('#post-' + post_id + ' .like-button');
-            var icon = button.find('i'); // Icono del corazón
+            var icon = button.find('i'); 
             var likeMessage = $('#post-' + post_id + ' .like-message');
-            button.data('liked', !liked); // Actualizar el estado de "liked"
+            button.data('liked', !liked); 
 
-            // Cambiar el ícono del corazón
+            
             icon.toggleClass('bi-heart-fill text-danger bi-heart');
 
-            var likes = response.likes;  // Obtener el nuevo número de likes
+            var likes = response.likes;  
 
-            // Actualizar el contador de likes
+            
             $('#post-' + post_id + ' .likes-count').text(`${likes} likes`);
 
-            // Actualizar el mensaje de los likes
             updateLikeMessage(likeMessage, likes, !liked);
         },
         error: function(xhr, errmsg, err) {
-            console.error(xhr.status + ": " + xhr.responseText); // En caso de error
+            console.error(xhr.status + ": " + xhr.responseText); 
         }
     });
 });
 
-// Función para actualizar el mensaje según el número de likes
+
 function updateLikeMessage(element, likes, liked) {
     if (likes === 0) {
         element.text('Be the first to like this');

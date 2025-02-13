@@ -4,7 +4,6 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
-from django.http.response import JsonResponse, HttpResponse
 from django.db import IntegrityError
 from django.contrib.auth.decorators import login_required
 from . models import Follow
