@@ -8,6 +8,15 @@ from django.db import IntegrityError
 from django.contrib.auth.decorators import login_required
 from . models import Follow
 from posts.models import Post
+from .forms import ProfileImageForm, ProfileFirstNameForm, ProfileLastNameForm, ProfileBioForm, ProfileLocationForm
+from django.http import JsonResponse, HttpResponseNotAllowed
+from .forms import (
+    ProfileImageForm,
+    ProfileFirstNameForm,
+    ProfileLastNameForm,
+    ProfileBioForm,
+    ProfileLocationForm
+)
 
 # Create your views here.
 
@@ -91,7 +100,7 @@ def login_user(request):
 
 def signout(request):
     logout(request)
-    return redirect('home')
+    return redirect('accounts:login')
 
 
 @login_required
@@ -124,3 +133,69 @@ def display_profile(request):
                                                      'users_following': users_following,
                                                      'users_followers': users_followers,
                                                      'number_of_posts': number_of_posts})
+
+
+def edit_profile(request):
+    user = request.user
+    user.image = user.profile.image.url
+    user.bio = user.profile.bio
+    
+    return render(request, 'accounts/edit_profile.html',
+                  {'user': user})
+    
+    
+
+
+
+@login_required
+def update_profile_photo(request):
+    if request.method == 'POST':
+        form = ProfileImageForm(request.POST, request.FILES, instance=request.user.profile)
+        if form.is_valid():
+            
+            form.save()
+            return redirect('accounts:edit_profile') 
+    if request.method == 'GET':
+        
+        form = ProfileImageForm(instance=request.user.profile)
+
+    return render(request, 'accounts/edit_profile.html', {'form': form})
+
+
+
+
+def update_profile(request):
+    
+    if request.method != 'POST' or request.headers.get('X-Requested-With') != 'XMLHttpRequest':
+        return HttpResponseNotAllowed(['POST'])
+
+
+    field_form_mapping = {
+        'first_name': ProfileFirstNameForm,
+        'last_name': ProfileLastNameForm,
+        'bio': ProfileBioForm,
+        'location': ProfileLocationForm,
+    }
+
+    form = None
+    
+    for field, form_class in field_form_mapping.items():
+        if field in request.POST:
+            form = form_class(request.POST, instance=request.user.profile)
+            break
+
+    if form is None:
+        return JsonResponse({'success': False, 'error': 'No se envió un campo válido.'})
+
+   
+    if form.is_valid():
+        profile = form.save()
+        updated_field = list(form.cleaned_data.keys())[0]
+        return JsonResponse({
+            'success': True,
+            updated_field: getattr(profile, updated_field)
+        })
+
+    return JsonResponse({'success': False, 'error': form.errors})
+
+

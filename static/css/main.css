@@ -448,10 +448,6 @@ overflow-y: auto;
 }
 
 
-
-
-
-
 /* Contenedor principal del inbox */
 .inbox-layout {
     display: flex;
@@ -783,14 +779,17 @@ overflow-y: auto;
 
 
 .modal-header{
+  
   height: 60px;
  
 }
 
 .modal-title{
- margin-left: 37%;
+  margin-left: 29%;
  color: black;
 }
+
+
 
 
 
@@ -913,4 +912,100 @@ width: 100%;
   width: 180px;
   height: 80px;
  
+}
+
+/* Styles for edit-profile*/
+
+.container-edit-profile{
+  display: flex;
+  border: 1px solid rgb(234, 231, 226);
+  border-radius: 20px;
+  
+  margin-bottom: 20px;
+  width: 50%;
+  height: 75px;
+  align-items: center;
+  margin-left: 34%;
+  margin-top: 5%;
+  background-color: rgb(234, 231, 226);
+}
+
+.edit-profile-header{
+  display: flex;
+  margin-left: 50%;
+  margin-top: 3%;
+  
+  
+}
+
+
+
+.user-pic-edit-profile{
+display: flex;
+}
+
+.pic-edit-profile{
+  margin-left: 20px;
+  display: flex;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+.user-information{
+  display: flex;
+  flex-direction: column;
+  margin-left: 20px;
+}
+
+.btn-change-pic{
+  position: absolute;
+  left: 73%;
+  width: 120px;
+  font-size: 9px;
+}
+
+.form-profile-change{
+  justify-content: center;
+  align-items: center;
+}
+
+
+.modal-footer-profile{
+  margin-top: 15%;
+  margin-left: 38%;
+}
+
+.label-profile{
+ margin-left: 36%;
+
+}
+
+
+.modal-content-profile{
+  width: 600px;
+  height: 300px;
+  background-color: white;
+}
+
+.bio, .location, .first-name, .last-name{
+  padding-top: 10px;
+  background-color: rgb(234, 231, 226);
+  border-radius: 20px;
+  margin-top: 25px;
+  margin-bottom: 20px;
+  margin-left: 34%;
+  width: 50%;
+}
+
+
+.btn-change-information{
+ margin-left: 86%;
+ 
+}
+
+
+.form-control{
+  width: 95%;
+  margin-left: 3%;
 }

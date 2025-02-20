@@ -11,10 +11,12 @@
         <div class="profile-picture">
             <img class="profile-picture-profile" src="{{ user.profile.image.url }}" alt="Foto de perfil" class="img-fluid rounded-circle" style="width: 150px; height: 150px; object-fit: cover;">
         </div>
+
+    
         <!-- Información del perfil -->
         <div class="profile-info ms-3">
             <div>
-                <h1>{{ user.username }}</h1>
+                <h5>{{ user.username }}</h5>
                 {% if user.profile.first_name %}
                 <p>{{ user.profile.first_name }}</p>
                 {% endif %}
@@ -25,15 +27,19 @@
                 <p>{{user.profile.bio}}</p>
                 {% endif %}
             </div>
+
+            <div class="btn-follow-see mt-3">
+
+                <a class="btn btn-light" href="{% url 'accounts:edit_profile' %}" role="button">Edit profile</a>
+                <a class="btn btn-light" href="#" role="button">See file</a>
+            </div>
+
             <div class="stats d-flex mt-2">
                 <span class="me-4"><strong>{{number_of_posts}}</strong> publicaciones</span>
                 <span class="me-4"><strong>{{users_followers}}</strong> seguidores</span>
                 <span><strong>{{users_following }}</strong> siguiendo</span>
             </div>
-            <div class="btn-follow-see mt-3">
-                <button class="btn btn-outline-secondary">Edit profile</button>
-                <button class="btn btn-outline-secondary">See file</button>
-            </div>
+            
         </div>
     </div>
 

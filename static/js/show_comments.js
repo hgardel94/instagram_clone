@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 modalImg.src = document.querySelector(`[data-post-id="${postId}"]`).closest('.post').querySelector('.post-pic').src;
                 modal.show();
             })
-            .catch(err => console.error('Error al cargar los comentarios:', err));
+            .catch(err => console.error('Error to load comments:', err));
     };
 
     
@@ -47,10 +47,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 modalComments.appendChild(newComment);
                 commentText.value = ''; 
             } else {
-                console.error('Error al agregar comentario:', data.errors);
+                console.error('Error to add comment:', data.errors);
             }
         })
-        .catch(err => console.error('Error en la petición AJAX:', err));
+        .catch(err => console.error('Error AJAX request:', err));
     };
 
     

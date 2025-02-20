@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+{% include 'navbar.html' %}
+
+<div class="edit-profile-header">
+    <h4 class="title-profile">Edit profile</h4>
+</div>
+
+<div class="container-edit-profile">
+    <div class="user-pic-edit-profile">
+        <img class="pic-edit-profile" src="{{ user.image }}" alt="Image not found">
+    </div>
+    <div class="user-information">
+        <h4>{{ user.username }}</h4>
+    </div>
+    <div class="btn-change-pic">
+        <a class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#chanche-profile-photo">Change photo</a>
+    </div>
+</div>
+
+
+<div class="first-name">
+    <h5 class="ms-4">First name</h5>
+    <form method="post" action="{% url 'accounts:update_profile' %}" class="profile-update-form">
+        {% csrf_token %}
+        {% if user.profile.first_name %}
+        <input type="text" class="form-control" value="{{ user.profile.first_name }}" name="first_name" id="id_first-name">
+        {% else %}
+        <input type="text" class="form-control" value="" name="first_name" id="id_first-name">
+        {% endif %}
+        <button type="submit" class="btn btn-primary mt-2 btn-change-information" id="btn-first-name">Save</button>
+    </form>
+</div>
+
+
+<div class="last-name">
+    <h5 class="ms-4">Last name</h5>
+    <form method="post" action="{% url 'accounts:update_profile' %}" class="profile-update-form">
+        {% csrf_token %}
+        {% if user.profile.last_name %}
+        <input type="text" class="form-control" value="{{ user.profile.last_name }}" name="last_name" id="id_last-name"> 
+        {% else %}
+        <input type="text" class="form-control" value="" name="last_name" id="id_last-name"> 
+        {% endif %}
+        <button type="submit" class="btn btn-primary mt-2 btn-change-information">Save</button>
+    </form>
+</div>
+
+
+<div class="bio">
+    <h5 class="ms-4">Presentation</h5>
+    <form method="post" action="{% url 'accounts:update_profile' %}" class="profile-update-form">
+        {% csrf_token %}
+        {% if user.profile.bio %}
+        <input type="text" class="form-control" value="{{ user.profile.bio }}" name="bio" id="id_bio"> 
+        {% else %}
+        <input type="text" class="form-control" value="" name="bio" id="id_bio"> 
+        {% endif %}
+        <button type="submit" class="btn btn-primary mt-2 btn-change-information">Save</button>
+    </form>
+</div>
+
+
+<div class="location">
+    <h5 class="ms-4">Location</h5>
+    <form method="post" action="{% url 'accounts:update_profile' %}" class="profile-update-form">
+        {% csrf_token %}
+        {% if user.profile.location %}
+        <input type="text" class="form-control" value="{{ user.profile.location }}" name="location" id="id_location"> 
+        {% else %}
+        <input type="text" class="form-control" value="" name="location" id="id_location"> 
+        {% endif %}    
+        <button type="submit" class="btn btn-primary mt-2 btn-change-information">Save</button>
+    </form>
+</div>
+
+
+<div class="modal fade" id="chanche-profile-photo" tabindex="-1" aria-labelledby="chanche-profile-photoLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="chanche-profile-photoLabel">Update profile photo</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form method="post" action="{% url 'accounts:update_profile_photo' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+           <div class="label-profile">
+                <label for="id_image">Change profile picture:</label>
+           </div>
+           <div class="input-profile">
+                <input type="file" name="image" id="id_image" class="form-control" required>                
+           </div>
+           <div class="modal-footer-profile">
+                <button type="submit" class="btn btn-primary mt-2">Change photo</button>
+           </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+{% endblock %}
