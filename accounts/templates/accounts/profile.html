@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load static %}
+    
+{% block content %}
+{% include 'navbar.html' %}
+
+<div class="container mt-4 content-profile">
+    <!-- Perfil -->
+    <div class="profile-header d-flex align-items-center">
+        <!-- Foto de perfil -->
+        <div class="profile-picture">
+            <img class="profile-picture-profile" src="{{ user.profile.image.url }}" alt="Foto de perfil" class="img-fluid rounded-circle" style="width: 150px; height: 150px; object-fit: cover;">
+        </div>
+
+    
+        <!-- Información del perfil -->
+        <div class="profile-info ms-3">
+            <div>
+                <h5>{{ user.username }}</h5>
+                {% if user.profile.first_name %}
+                <p>{{ user.profile.first_name }}</p>
+                {% endif %}
+                {% if user.profile.location %}
+                <p>{{ user.profile.location }}</p>
+                {% endif %}
+                {% if user.profile.bio %}
+                <p>{{user.profile.bio}}</p>
+                {% endif %}
+            </div>
+
+            <div class="btn-follow-see mt-3">
+
+                <a class="btn btn-light" href="{% url 'accounts:edit_profile' %}" role="button">Edit profile</a>
+                <a class="btn btn-light" href="#" role="button">See file</a>
+            </div>
+
+            <div class="stats d-flex mt-2">
+                <span class="me-4"><strong>{{number_of_posts}}</strong> publicaciones</span>
+                <span class="me-4"><strong>{{users_followers}}</strong> seguidores</span>
+                <span><strong>{{users_following }}</strong> siguiendo</span>
+            </div>
+            
+        </div>
+    </div>
+
+
+    <!-- Publicaciones -->
+    <div class="row mt-4">
+        {% for post in posts %}
+        <div class="col-md-4 mb-4">
+            <div class="post-profile">
+                <img src="{{ post.image.url }}" alt="Publicación" class="img-fluid">
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

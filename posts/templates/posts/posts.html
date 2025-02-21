@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+{% load static %}
+    
+{% block content %}
+{% include 'navbar.html' %}
+
+<div class="post-container">
+    {% for post in posts %}
+        <div class="post mt-3">
+            <div class="post-header d-flex justify-content-between">
+                <div class="d-flex">
+                    <a href="#">
+                        <img class="profile-pic" src="{{post.user.profile.image.url}}">
+                    </a>
+                    <h6 class="post-user">{{post.user.username}}</h6>
+                </div>
+                <ul class="navbar-nav justify-content-end">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-ellipsis-h" style="color: gray;"></i>
+                        </a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="{% url 'posts:edit_post' post.pk %}">Edit</a>
+                            <a class="dropdown-item" href="{% url 'posts:delete_post' post.pk %}">Delete</a>
+                            <a class="dropdown-item" href="#">Go to post</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="post-pic-container open-modal" data-post-id="{{ post.id }}">
+                <img class="post-pic" src="{{ post.image.url }}" alt="Post Image">
+            </div>
+
+            <div class="post-footer">
+                <div id="post-{{ post.id }}">
+                <div class="d-flex align-items-center">
+                    {% if post.has_liked %}
+                    <button class="btn btn-link p-0 like-button" 
+                    data-post-id="{{ post.id }}" 
+                    data-liked="true">
+                <i class="bi bi-heart-fill text-danger"></i>
+            </button>
+            {% else %}
+        
+            <button class="btn btn-link p-0 like-button" 
+                    data-post-id="{{ post.id }}" 
+                    data-liked="false">
+                <i class="bi bi-heart"></i>
+            </button>
+            
+            {% endif %}
+            <p class="mb-0 ms-2"><strong class="likes-count">{{ post.total_likes }} likes</strong></p>
+                    <p class="like-message ms-3 mb-0">
+                        {% if post.total_likes == 0 %}
+                            Be the first to like this
+                        {% endif %}
+                        {% if not post.has_liked and post.total_likes == 1 %}
+                            1 person liked this    
+                        {% endif %}   
+                        {% if post.total_likes == 1 and  post.has_liked %}
+                            You liked 
+                        {% endif %}
+                        {% if post.has_liked and post.total_likes == 2 %}
+                            You and {{ post.likes_minus_one }} other person liked this
+                        {% endif %}
+                        {% if post.has_liked and post.total_likes >= 3 %}
+                            You and {{post.likes_minus_one}} others liked this
+                        {% endif %}
+                        {% if not post.has_liked and post.total_likes >= 2 %}
+                            {{ post.likes.count }} people liked this
+                        {% endif %}
+                    </p>
+                </div>
+                </div>
+                <p class="quote"><strong>{{post.user.username}}</strong> {{post.quote}}</p>
+                <a href="#"><p class="show-comments open-modal" data-post-id="{{ post.id }}">See the {{ post.comments.all.count }} comments</p></a>
+                <small class="test-muted">{{post.created_at|date:"M d, Y"}}</small>
+        </div>
+    {% endfor %}
+</div>
+
+
+<div class="modal fade" id="postModal" tabindex="-1" aria-labelledby="postModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="moodal-header">
+            <button type="button" class="btn-close align-items-end" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body-comments d-flex">
+                
+                <div class="col-md-6 modal-img-container">
+                    <img id="modal-img" src="" class="img-fluid" alt="Post Image">
+                </div>
+                
+                <div class="col-md-6 modal-comments-container">
+                    <div id="modal-comments">
+                        
+                    </div>
+
+                    <form id="comment-form">
+                        {% csrf_token %}
+                        <textarea id="comment-text" class="form-control" placeholder="Add a comment..." required></textarea>
+                        <button type="submit" class="btn btn-link text-primary fw-bold">Publish</button>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+               
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

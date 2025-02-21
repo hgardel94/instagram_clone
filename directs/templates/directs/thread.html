@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+
+
+
+<div class="chat-container" id="conversation-messages" data-conversation-id="{{ conversation.id }}" data-other-user="{{ other_user.username }}" data-profile-pic="{{ other_user.profile.image.url }}">
+  {% for message in messages %}
+    {% if message.sender == request.user %}
+    <!-- Mensaje enviado por el usuario actual -->
+    <div class="conversation-content sender">
+        <div class="sender-user-container">
+            <div class="message-sender">
+                <p class="sender-text">{{ message.content }}</p>
+            </div>
+            <div class="message-meta">
+                <small class="time-sent">{{ message.timestamp|time }}</small>
+                {% if message.is_read_by_other %}
+                <small class="read-status">Visto</small>
+                {% else %}
+                <small class="read-status">✔️</small>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <!-- Mensaje recibido del otro usuario -->
+    <div class="conversation-content receiver">
+        <div class="receiver-user-container">
+            {% if message.show_avatar %}
+            <img class="profile-pic" src="{{ other_user.profile.image.url }}" alt="{{ other_user.username }}">
+            {% else %}
+            <!-- Si no se muestra el avatar, se puede dejar un espacio vacío opcional -->
+            <div class="avatar-placeholder"></div>
+            {% endif %}
+            <div class="message-group">
+                <div class="message-sender">
+                    <p class="receiver-text">{{ message.content }}</p>
+                </div>
+                <div class="message-meta">
+                    <small class="time-sent">{{ message.timestamp|time }}</small>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    {% endfor %}
+</div>
+
+
+    
+</div>
+
+
+{% endblock %}
