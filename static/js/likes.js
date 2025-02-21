@@ -32,28 +32,24 @@ $(document).on('click', '.like-button', function(e) {
 
 
 function updateLikeMessage(element, likes, liked) {
-    if (likes === 0) {
-        element.text('Be the first to like this');
-        return;
-    } 
-    if (likes === 1 && liked) {
-        element.text('You liked this');
-        return;
+    const messageLiked = {
+        0: 'Be the first to like this',
+        1: 'You liked this',
+        2: 'You and 1 other liked this',
+        default: `You and ${likes-1} others liked this`,
     }
-    if (likes === 1 && !liked) {
-        element.text('1 person liked this');
-        return;
-    } 
-    if (likes === 2 && liked) {
-        element.text('You and 1 other person liked this');
-        return;
-    }
-    if (likes >= 2 && liked) {
-        element.text(`You and ${likes - 1} others liked this`);
-        return;
-    }
-    if (likes >= 2 && !liked) {
-        element.text(`${likes} people liked this`);
-        return;
-    }
+
+    const messageNotLiked = {
+        0: 'Be the first to like this',
+        1: '1 person liked this',
+        default:`${likes} people liked this`,
+  }
+
+  if (liked === true){
+    element.text(messageLiked[likes] || messageLiked.default)
+  }if (liked === false){
+    element.text(messageNotLiked[likes] || messageNotLiked.default)
+  }
+  
+  
 }
